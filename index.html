@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitCraft - Meu Treino</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/logo.png" type="image/png">
+</head>
+<body>
+    <div class="container">
+        <div id="login-screen" class="screen active">
+            <header class="header">
+                <img src="images/logo.png" alt="FitCraft Logo" class="logo">
+                <h1>Acesse seu Treino</h1>
+            </header>
+            <div class="form-card">
+                <p>Use a credencial fornecida pelo seu personal para entrar.</p>
+                <div class="form-group">
+                    <label for="credencial-input">Sua Credencial</label>
+                    <input type="text" id="credencial-input" placeholder="Ex: ABC-123" style="text-transform: uppercase;">
+                </div>
+                <button id="btn-entrar" class="login-btn">Entrar</button>
+                <p id="login-error" class="error-message"></p>
+            </div>
+        </div>
+        <div id="workout-screen" class="screen">
+            <header class="header">
+                <img src="images/logo.png" alt="FitCraft Logo" class="logo-header">
+                <h1 id="aluno-nome">Olá, Aluno!</h1>
+                <button id="btn-sair" class="logout-btn">Sair</button>
+            </header>
+            <section id="ficha-treino-container">
+                <div id="ficha-info"></div>
+                <div id="ficha-content"></div>
+                <button id="btn-salvar-cargas" class="login-btn" style="margin-top: 20px; display: none;">Salvar Cargas do Treino</button>
+            </section>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
