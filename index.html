@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitCraft - Meu Treino</title>
+    
+    <!-- Meta tags para PWA -->
+    <meta name="theme-color" content="#27ae60">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FitCraft">
+    <link rel="apple-touch-icon" href="images/logo.png">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Estilos -->
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="images/logo.png" type="image/png">
@@ -38,9 +50,63 @@
             </section>
         </div>
     </div>
+    
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-client.js"></script>
     <script src="script.js"></script>
+    
+    <!-- Script PWA -->
+    <script>
+        // Registrar Service Worker para PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('service-worker.js')
+                .then(function(registration) {
+                    console.log('ServiceWorker registrado com sucesso: ', registration);
+                })
+                .catch(function(registrationError) {
+                    console.log('Falha no registro do ServiceWorker: ', registrationError);
+                });
+            });
+        }
+
+        // Detectar quando o app é instalado
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('FitCraft instalado com sucesso na tela inicial!');
+        });
+
+        // Gerenciar prompt de instalação
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('App pronto para instalação na tela inicial');
+            
+            // Opcional: Mostrar botão de instalação
+            // mostrarBotaoInstalacao();
+        });
+
+        // Função para mostrar botão de instalação (opcional)
+        function mostrarBotaoInstalacao() {
+            const botaoInstalar = document.createElement('button');
+            botaoInstalar.textContent = '📲 Instalar App';
+            botaoInstalar.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 1000; padding: 10px 15px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer;';
+            botaoInstalar.onclick = instalarApp;
+            document.body.appendChild(botaoInstalar);
+        }
+
+        function instalarApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Usuário aceitou instalar o app');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+    </script>
 </body>
 </html>
-
