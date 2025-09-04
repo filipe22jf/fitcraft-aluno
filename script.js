@@ -1,7 +1,7 @@
-// script.js (COMPLETO E CORRIGIDO)
+// script.js (VERSÃO FINAL, COMPLETA E MELHORADA)
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. SELEÇÃO DE ELEMENTOS DO DOM
+    // --- 1. SELEÇÃO DE ELEMENTOS DO DOM ---
     const loginScreen = document.getElementById("login-screen");
     const workoutScreen = document.getElementById("workout-screen");
     const credencialInput = document.getElementById("credencial-input");
@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let alunoAtual = null;
 
+    // Dicionário de descrições para as técnicas avançadas
     const tecnicasDescricoes = {
         "Drop set": "Realizar o exercício até a falha e reduzir o peso para continuar até a falha novamente.",
         "Rest-pause": "Ir até a falha, descansar 10–20s e continuar com o mesmo peso.",
@@ -34,13 +35,18 @@ document.addEventListener("DOMContentLoaded", () => {
         "FST-7": "7 séries de 10–15 repetições com 30–45s de descanso, geralmente no final."
     };
 
-    // 2. DECLARAÇÃO DAS FUNÇÕES
+    // --- 2. FUNÇÕES PRINCIPAIS ---
 
+    /**
+     * Exibe a ficha de treino do aluno na tela.
+     * @param {object} aluno - O objeto do aluno contendo id e nome.
+     * @param {object|null} ficha - O objeto da ficha de treino ou null se não houver.
+     */
     async function mostrarFicha(aluno, ficha) {
         alunoAtual = aluno;
         alunoNomeSpan.textContent = `Olá, ${aluno.nome.split(" ")[0]}!`;
         fichaInfoDiv.innerHTML = "";
-        fichaContentDiv.innerHTML = "";
+        fichaContentDiv.innerHTML = '<div class="empty-state">Carregando dados...</div>'; // Estado inicial de carregamento
 
         if (ficha && ficha.exercicios && ficha.exercicios.length > 0) {
             const dataFormatada = new Date(ficha.data_troca).toLocaleDateString("pt-BR", { timeZone: "UTC" });
@@ -50,14 +56,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 ${ficha.observacoes ? `<p><strong>Observações:</strong> ${ficha.observacoes}</p>` : ""}
             `;
 
+            // Busca as últimas cargas registradas para os exercícios da ficha
             const nomesExercicios = ficha.exercicios.map(ex => ex.exercicio);
-            const { data: ultimasCargas } = await _supabase
+            const { data: ultimasCargas, error: cargasError } = await _supabase
                 .from("treinos_realizados")
                 .select("exercicio_nome, carga_kg")
                 .eq("aluno_id", aluno.id)
                 .in("exercicio_nome", nomesExercicios)
                 .order("data_treino", { ascending: false });
             
+            if (cargasError) {
+                console.error("Erro ao buscar últimas cargas:", cargasError);
+            }
+
             const mapaCargas = {};
             if (ultimasCargas) {
                 ultimasCargas.forEach(carga => {
@@ -67,11 +78,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
 
+            fichaContentDiv.innerHTML = ""; // Limpa o "Carregando..."
             ficha.exercicios.forEach(ex => {
                 const exercicioDiv = document.createElement("div");
                 exercicioDiv.className = "exercicio";
                 const ultimaCarga = mapaCargas[ex.exercicio] || "";
-                const descricaoTecnica = ex.tecnica ? tecnicasDescricoes[ex.tecnica] || "" : "";
+                const descricaoTecnica = ex.tecnica ? (tecnicasDescricoes[ex.tecnica] || "") : "";
                 const htmlTecnica = ex.tecnica ? `<div class="exercicio-tecnica">Técnica: <strong>${ex.tecnica}</strong>${descricaoTecnica ? `<span> — ${descricaoTecnica}</span>` : ""}</div>` : "";
 
                 exercicioDiv.innerHTML = `
@@ -85,14 +97,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
             btnSalvarCargas.style.display = "block";
         } else {
+            // Caso não haja ficha ou a ficha esteja vazia
             fichaContentDiv.innerHTML = '<div class="empty-state">Sua ficha de treino ainda não foi criada.</div>';
             btnSalvarCargas.style.display = "none";
         }
 
+        // Transição suave entre as telas
         loginScreen.classList.remove("active");
         workoutScreen.classList.add("active");
     }
 
+    /**
+     * ✅ FUNÇÃO CORRIGIDA E MELHORADA
+     * Realiza o login do usuário, buscando o aluno e sua ficha mais recente.
+     */
     async function login() {
         const credencial = credencialInput.value.trim().toUpperCase();
         if (!credencial) {
@@ -103,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btnEntrar.disabled = true;
         btnEntrar.textContent = "Verificando...";
 
+        // 1. Encontrar o aluno pela credencial
         const { data: aluno, error: alunoError } = await _supabase
             .from("clients")
             .select("id, nome")
@@ -117,21 +136,32 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const { data: ficha, error: fichaError } = await _supabase
+        // 2. Se o aluno foi encontrado, buscar a ficha mais recente (SEM .single())
+        const { data: fichas, error: fichaError } = await _supabase
             .from("planos_de_treino")
             .select("*")
             .eq("user_id", aluno.id)
             .order("data_troca", { ascending: false })
-            .limit(1)
-            .single();
+            .limit(1);
+
+        if (fichaError) {
+            console.error("Erro ao buscar a ficha de treino:", fichaError);
+            // O login continua mesmo com erro na ficha, a tela mostrará o estado vazio.
+        }
 
         btnEntrar.disabled = false;
         btnEntrar.textContent = "Entrar";
 
+        // Pega a primeira ficha do array (pode ser null se não houver)
+        const fichaMaisRecente = fichas ? fichas[0] : null;
+
         sessionStorage.setItem("alunoLogadoId", aluno.id);
-        mostrarFicha(aluno, ficha);
+        mostrarFicha(aluno, fichaMaisRecente);
     }
 
+    /**
+     * Realiza o logout do usuário, limpando a sessão.
+     */
     function logout() {
         alunoAtual = null;
         sessionStorage.removeItem("alunoLogadoId");
@@ -140,11 +170,16 @@ document.addEventListener("DOMContentLoaded", () => {
         credencialInput.value = "";
     }
 
+    /**
+     * Salva as cargas preenchidas pelo aluno no banco de dados.
+     */
     async function salvarCargas() {
         if (!alunoAtual) return;
+
         const inputsDeCarga = document.querySelectorAll(".carga-valor");
         const registrosDeTreino = [];
         const hoje = new Date().toISOString().split("T")[0];
+
         inputsDeCarga.forEach(input => {
             const carga = parseFloat(input.value);
             if (carga > 0) {
@@ -156,19 +191,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
         });
+
         if (registrosDeTreino.length === 0) {
             alert("Nenhuma carga preenchida para salvar.");
             return;
         }
+
         btnSalvarCargas.disabled = true;
         btnSalvarCargas.textContent = "Salvando...";
         
+        // Upsert para inserir ou atualizar o registro do dia
         const { error } = await _supabase.from("treinos_realizados").upsert(registrosDeTreino, {
             onConflict: "aluno_id, exercicio_nome, data_treino"
         });
 
         btnSalvarCargas.disabled = false;
         btnSalvarCargas.textContent = "Salvar Cargas do Treino";
+
         if (error) {
             console.error("Erro ao salvar cargas:", error);
             alert(`Ocorreu um erro ao salvar as cargas. Detalhes: ${error.message}`);
@@ -177,44 +216,61 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ✅✅✅ FUNÇÃO CORRIGIDA ✅✅✅
+    /**
+     * ✅ FUNÇÃO CORRIGIDA E MELHORADA
+     * Verifica se há uma sessão ativa e carrega os dados do aluno.
+     */
     async function verificarSessao() {
         const alunoId = sessionStorage.getItem("alunoLogadoId");
         if (alunoId) {
-            // Busca os dados do aluno
+            // Mostra um estado de carregamento inicial
+            loginScreen.classList.remove("active");
+            workoutScreen.classList.add("active");
+            alunoNomeSpan.textContent = "Carregando...";
+            fichaContentDiv.innerHTML = '<div class="empty-state">Verificando sessão...</div>';
+
+            // 1. Busca os dados do aluno
             const { data: aluno, error: alunoError } = await _supabase
                 .from("clients")
                 .select("id, nome")
                 .eq("id", alunoId)
-                .single(); // .single() aqui está OK, pois o ID deve ser único.
+                .single();
 
             if (aluno && !alunoError) {
-                // Busca a ficha mais recente, mas sem usar .single()
+                // 2. Busca a ficha mais recente (SEM .single())
                 const { data: fichas, error: fichaError } = await _supabase
                     .from("planos_de_treino")
                     .select("*")
                     .eq("user_id", aluno.id)
                     .order("data_troca", { ascending: false })
-                    .limit(1); // Apenas limit(1), sem single()
-
-                // Pega a primeira ficha do array, que pode ser undefined se não houver nenhuma
-                const fichaMaisRecente = fichas ? fichas[0] : null;
+                    .limit(1);
                 
-                // A função mostrarFicha já sabe lidar com uma ficha nula
+                if (fichaError) {
+                    console.error("Erro ao buscar ficha na verificação de sessão:", fichaError);
+                }
+
+                const fichaMaisRecente = fichas ? fichas[0] : null;
                 mostrarFicha(aluno, fichaMaisRecente);
             } else {
-                // Se não encontrar o aluno pelo ID, faz logout
+                // Se não encontrar o aluno pelo ID (ex: foi deletado), faz logout
+                console.error("Erro ao verificar sessão, aluno não encontrado:", alunoError);
                 logout();
             }
         }
     }
 
-    // 3. ADIÇÃO DOS EVENT LISTENERS
+    // --- 3. ADIÇÃO DOS EVENT LISTENERS ---
     btnEntrar.addEventListener("click", login);
     btnSair.addEventListener("click", logout);
     btnSalvarCargas.addEventListener("click", salvarCargas);
+    // Permite login com a tecla Enter
+    credencialInput.addEventListener("keyup", (event) => {
+        if (event.key === "Enter") {
+            login();
+        }
+    });
 
-    // 4. INICIALIZAÇÃO
+    // --- 4. INICIALIZAÇÃO ---
     verificarSessao();
     console.log("App do Aluno pronto e ouvintes de eventos adicionados.");
 });
