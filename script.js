@@ -1,4 +1,4 @@
-// script.js (CORRIGIDO PARA A NOVA ESTRUTURA)
+// script.js (COMPLETO E CORRIGIDO)
 
 document.addEventListener("DOMContentLoaded", () => {
     // 1. SELEÇÃO DE ELEMENTOS DO DOM
@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2. DECLARAÇÃO DAS FUNÇÕES
 
-    // ✅✅✅ FUNÇÃO ATUALIZADA ✅✅✅
     async function mostrarFicha(aluno, ficha) {
         alunoAtual = aluno;
         alunoNomeSpan.textContent = `Olá, ${aluno.nome.split(" ")[0]}!`;
@@ -94,7 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
         workoutScreen.classList.add("active");
     }
 
-    // ✅✅✅ FUNÇÃO ATUALIZADA ✅✅✅
     async function login() {
         const credencial = credencialInput.value.trim().toUpperCase();
         if (!credencial) {
@@ -105,10 +103,9 @@ document.addEventListener("DOMContentLoaded", () => {
         btnEntrar.disabled = true;
         btnEntrar.textContent = "Verificando...";
 
-        // Passo 1: Encontrar o aluno pela credencial
         const { data: aluno, error: alunoError } = await _supabase
             .from("clients")
-            .select("id, nome") // Busca apenas 'id' e 'nome'
+            .select("id, nome")
             .eq("credencial", credencial)
             .single();
 
@@ -120,22 +117,19 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Passo 2: Se o aluno foi encontrado, buscar a ficha mais recente
         const { data: ficha, error: fichaError } = await _supabase
             .from("planos_de_treino")
             .select("*")
             .eq("user_id", aluno.id)
             .order("data_troca", { ascending: false })
-            .limit(1) // Pega apenas a primeira (a mais recente)
-            .single(); // Espera um único resultado
+            .limit(1)
+            .single();
 
         btnEntrar.disabled = false;
         btnEntrar.textContent = "Entrar";
 
-        // Mesmo que a ficha não seja encontrada (fichaError), o login funciona.
-        // A função mostrarFicha vai lidar com o caso de não haver ficha.
         sessionStorage.setItem("alunoLogadoId", aluno.id);
-        mostrarFicha(aluno, ficha); // Passa o aluno e a ficha (que pode ser null)
+        mostrarFicha(aluno, ficha);
     }
 
     function logout() {
@@ -183,28 +177,33 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ✅✅✅ FUNÇÃO ATUALIZADA ✅✅✅
+    // ✅✅✅ FUNÇÃO CORRIGIDA ✅✅✅
     async function verificarSessao() {
         const alunoId = sessionStorage.getItem("alunoLogadoId");
         if (alunoId) {
-            // Refaz a mesma lógica do login para recarregar os dados
+            // Busca os dados do aluno
             const { data: aluno, error: alunoError } = await _supabase
                 .from("clients")
                 .select("id, nome")
                 .eq("id", alunoId)
-                .single();
+                .single(); // .single() aqui está OK, pois o ID deve ser único.
 
             if (aluno && !alunoError) {
-                const { data: ficha, error: fichaError } = await _supabase
+                // Busca a ficha mais recente, mas sem usar .single()
+                const { data: fichas, error: fichaError } = await _supabase
                     .from("planos_de_treino")
                     .select("*")
                     .eq("user_id", aluno.id)
                     .order("data_troca", { ascending: false })
-                    .limit(1)
-                    .single();
+                    .limit(1); // Apenas limit(1), sem single()
+
+                // Pega a primeira ficha do array, que pode ser undefined se não houver nenhuma
+                const fichaMaisRecente = fichas ? fichas[0] : null;
                 
-                mostrarFicha(aluno, ficha);
+                // A função mostrarFicha já sabe lidar com uma ficha nula
+                mostrarFicha(aluno, fichaMaisRecente);
             } else {
+                // Se não encontrar o aluno pelo ID, faz logout
                 logout();
             }
         }
