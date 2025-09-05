@@ -1,4 +1,4 @@
-// script.js (VERSÃO FINAL, COMPLETA E MELHORADA)
+// script.js (VERSÃO CORRIGIDA - MOSTRA TODAS AS FICHAS)
 
 document.addEventListener("DOMContentLoaded", () => {
     // --- 1. SELEÇÃO DE ELEMENTOS DO DOM ---
@@ -14,11 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnSalvarCargas = document.getElementById("btn-salvar-cargas");
 
     let alunoAtual = null;
+    let fichasDoAluno = [];
+    let fichaAtualIndex = 0;
 
     // Dicionário de descrições para as técnicas avançadas
     const tecnicasDescricoes = {
         "Drop set": "Realizar o exercício até a falha e reduzir o peso para continuar até a falha novamente.",
-        "Rest-pause": "Ir até a falha, descansar 10–20s e continuar com o mesmo peso.",
+        "Rest-pause": "Ir até a falha, descansar 10—20s e continuar com o mesmo peso.",
         "Bi-set": "Dois exercícios em sequência sem descanso.",
         "Tri-set": "Três exercícios em sequência sem descanso.",
         "Giant set": "Quatro ou mais exercícios em sequência sem descanso.",
@@ -32,36 +34,113 @@ document.addEventListener("DOMContentLoaded", () => {
         "Cluster set": "Dividir a série em mini-blocos com pequenos descansos.",
         "Piramidal crescente": "Aumenta peso e reduz repetições a cada série.",
         "Piramidal decrescente": "Reduz peso e aumenta repetições a cada série.",
-        "FST-7": "7 séries de 10–15 repetições com 30–45s de descanso, geralmente no final."
+        "FST-7": "7 séries de 10—15 repetições com 30—45s de descanso, geralmente no final."
     };
 
     // --- 2. FUNÇÕES PRINCIPAIS ---
 
     /**
-     * Exibe a ficha de treino do aluno na tela.
-     * @param {object} aluno - O objeto do aluno contendo id e nome.
-     * @param {object|null} ficha - O objeto da ficha de treino ou null se não houver.
+     * ✅ NOVA FUNÇÃO: Cria navegação entre fichas
      */
-    async function mostrarFicha(aluno, ficha) {
+    function criarNavegacaoFichas() {
+        if (fichasDoAluno.length <= 1) return '';
+        
+        return `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: #fff; padding: 10px; border-radius: 8px;">
+                <button id="ficha-anterior" ${fichaAtualIndex === 0 ? 'disabled' : ''} 
+                        style="background: #3498db; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">
+                    ← Anterior
+                </button>
+                <span style="font-weight: 600;">
+                    Ficha ${fichaAtualIndex + 1} de ${fichasDoAluno.length}
+                </span>
+                <button id="ficha-proximo" ${fichaAtualIndex === fichasDoAluno.length - 1 ? 'disabled' : ''} 
+                        style="background: #3498db; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">
+                    Próxima →
+                </button>
+            </div>
+        `;
+    }
+
+    /**
+     * ✅ FUNÇÃO CORRIGIDA: Exibe as fichas de treino do aluno na tela.
+     */
+    async function mostrarFichas(aluno, fichas) {
         alunoAtual = aluno;
+        fichasDoAluno = fichas || [];
+        fichaAtualIndex = 0;
+
         alunoNomeSpan.textContent = `Olá, ${aluno.nome.split(" ")[0]}!`;
-        fichaInfoDiv.innerHTML = "";
-        fichaContentDiv.innerHTML = '<div class="empty-state">Carregando dados...</div>'; // Estado inicial de carregamento
+        
+        if (fichasDoAluno.length === 0) {
+            fichaInfoDiv.innerHTML = "";
+            fichaContentDiv.innerHTML = '<div class="empty-state">Suas fichas de treino ainda não foram criadas.</div>';
+            btnSalvarCargas.style.display = "none";
+            loginScreen.classList.remove("active");
+            workoutScreen.classList.add("active");
+            return;
+        }
 
-        if (ficha && ficha.exercicios && ficha.exercicios.length > 0) {
-            const dataFormatada = new Date(ficha.data_troca).toLocaleDateString("pt-BR", { timeZone: "UTC" });
-            fichaInfoDiv.innerHTML = `
-                <p><strong>Ficha:</strong> ${ficha.name}</p>
-                <p><strong>Data da Troca:</strong> ${dataFormatada}</p>
-                ${ficha.observacoes ? `<p><strong>Observações:</strong> ${ficha.observacoes}</p>` : ""}
-            `;
+        await renderizarFichaAtual();
+        
+        // Transição suave entre as telas
+        loginScreen.classList.remove("active");
+        workoutScreen.classList.add("active");
+    }
 
+    /**
+     * ✅ NOVA FUNÇÃO: Renderiza a ficha atual
+     */
+    async function renderizarFichaAtual() {
+        const ficha = fichasDoAluno[fichaAtualIndex];
+        
+        if (!ficha) {
+            fichaContentDiv.innerHTML = '<div class="empty-state">Erro ao carregar ficha.</div>';
+            return;
+        }
+
+        // Criar navegação entre fichas
+        const navegacao = criarNavegacaoFichas();
+        
+        // Info da ficha atual
+        const dataFormatada = new Date(ficha.data_troca).toLocaleDateString("pt-BR", { timeZone: "UTC" });
+        fichaInfoDiv.innerHTML = navegacao + `
+            <div style="background: #e8f6ef; color: #229954; padding: 15px; border-radius: 8px; font-weight: 500;">
+                <p style="margin: 5px 0;"><strong>Ficha:</strong> ${ficha.name}</p>
+                <p style="margin: 5px 0;"><strong>Data da Troca:</strong> ${dataFormatada}</p>
+                ${ficha.observacoes ? `<p style="margin: 5px 0;"><strong>Observações:</strong> ${ficha.observacoes}</p>` : ""}
+            </div>
+        `;
+
+        // Adicionar event listeners para navegação (se existir)
+        const btnAnterior = document.getElementById('ficha-anterior');
+        const btnProximo = document.getElementById('ficha-proximo');
+        
+        if (btnAnterior) {
+            btnAnterior.addEventListener('click', () => {
+                if (fichaAtualIndex > 0) {
+                    fichaAtualIndex--;
+                    renderizarFichaAtual();
+                }
+            });
+        }
+        
+        if (btnProximo) {
+            btnProximo.addEventListener('click', () => {
+                if (fichaAtualIndex < fichasDoAluno.length - 1) {
+                    fichaAtualIndex++;
+                    renderizarFichaAtual();
+                }
+            });
+        }
+
+        if (ficha.exercicios && ficha.exercicios.length > 0) {
             // Busca as últimas cargas registradas para os exercícios da ficha
             const nomesExercicios = ficha.exercicios.map(ex => ex.exercicio);
             const { data: ultimasCargas, error: cargasError } = await _supabase
                 .from("treinos_realizados")
                 .select("exercicio_nome, carga_kg")
-                .eq("aluno_id", aluno.id)
+                .eq("aluno_id", alunoAtual.id)
                 .in("exercicio_nome", nomesExercicios)
                 .order("data_treino", { ascending: false });
             
@@ -78,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
 
-            fichaContentDiv.innerHTML = ""; // Limpa o "Carregando..."
+            fichaContentDiv.innerHTML = "";
             ficha.exercicios.forEach(ex => {
                 const exercicioDiv = document.createElement("div");
                 exercicioDiv.className = "exercicio";
@@ -97,19 +176,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             btnSalvarCargas.style.display = "block";
         } else {
-            // Caso não haja ficha ou a ficha esteja vazia
-            fichaContentDiv.innerHTML = '<div class="empty-state">Sua ficha de treino ainda não foi criada.</div>';
+            fichaContentDiv.innerHTML = '<div class="empty-state">Esta ficha não possui exercícios.</div>';
             btnSalvarCargas.style.display = "none";
         }
-
-        // Transição suave entre as telas
-        loginScreen.classList.remove("active");
-        workoutScreen.classList.add("active");
     }
 
     /**
-     * ✅ FUNÇÃO CORRIGIDA E MELHORADA
-     * Realiza o login do usuário, buscando o aluno e sua ficha mais recente.
+     * ✅ FUNÇÃO CORRIGIDA: Realiza o login do usuário, buscando o aluno e TODAS suas fichas.
      */
     async function login() {
         const credencial = credencialInput.value.trim().toUpperCase();
@@ -136,27 +209,23 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // 2. Se o aluno foi encontrado, buscar a ficha mais recente (SEM .single())
+        // 2. ✅ CORREÇÃO: Buscar TODAS as fichas (sem .limit(1))
         const { data: fichas, error: fichaError } = await _supabase
             .from("planos_de_treino")
             .select("*")
             .eq("user_id", aluno.id)
-            .order("data_troca", { ascending: false })
-            .limit(1);
+            .order("data_troca", { ascending: false }); // ← Removido o .limit(1)
 
         if (fichaError) {
-            console.error("Erro ao buscar a ficha de treino:", fichaError);
+            console.error("Erro ao buscar as fichas de treino:", fichaError);
             // O login continua mesmo com erro na ficha, a tela mostrará o estado vazio.
         }
 
         btnEntrar.disabled = false;
         btnEntrar.textContent = "Entrar";
 
-        // Pega a primeira ficha do array (pode ser null se não houver)
-        const fichaMaisRecente = fichas ? fichas[0] : null;
-
         sessionStorage.setItem("alunoLogadoId", aluno.id);
-        mostrarFicha(aluno, fichaMaisRecente);
+        mostrarFichas(aluno, fichas);
     }
 
     /**
@@ -164,6 +233,8 @@ document.addEventListener("DOMContentLoaded", () => {
      */
     function logout() {
         alunoAtual = null;
+        fichasDoAluno = [];
+        fichaAtualIndex = 0;
         sessionStorage.removeItem("alunoLogadoId");
         loginScreen.classList.add("active");
         workoutScreen.classList.remove("active");
@@ -171,10 +242,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /**
-     * Salva as cargas preenchidas pelo aluno no banco de dados.
+     * ✅ FUNÇÃO CORRIGIDA: Salva as cargas da ficha atual
      */
     async function salvarCargas() {
-        if (!alunoAtual) return;
+        if (!alunoAtual || fichasDoAluno.length === 0) return;
 
         const inputsDeCarga = document.querySelectorAll(".carga-valor");
         const registrosDeTreino = [];
@@ -200,7 +271,6 @@ document.addEventListener("DOMContentLoaded", () => {
         btnSalvarCargas.disabled = true;
         btnSalvarCargas.textContent = "Salvando...";
         
-        // Upsert para inserir ou atualizar o registro do dia
         const { error } = await _supabase.from("treinos_realizados").upsert(registrosDeTreino, {
             onConflict: "aluno_id, exercicio_nome, data_treino"
         });
@@ -217,13 +287,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /**
-     * ✅ FUNÇÃO CORRIGIDA E MELHORADA
-     * Verifica se há uma sessão ativa e carrega os dados do aluno.
+     * ✅ FUNÇÃO CORRIGIDA: Verifica se há uma sessão ativa e carrega TODAS as fichas do aluno.
      */
     async function verificarSessao() {
         const alunoId = sessionStorage.getItem("alunoLogadoId");
         if (alunoId) {
-            // Mostra um estado de carregamento inicial
             loginScreen.classList.remove("active");
             workoutScreen.classList.add("active");
             alunoNomeSpan.textContent = "Carregando...";
@@ -237,22 +305,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 .single();
 
             if (aluno && !alunoError) {
-                // 2. Busca a ficha mais recente (SEM .single())
+                // 2. ✅ CORREÇÃO: Buscar TODAS as fichas (sem .limit(1))
                 const { data: fichas, error: fichaError } = await _supabase
                     .from("planos_de_treino")
                     .select("*")
                     .eq("user_id", aluno.id)
-                    .order("data_troca", { ascending: false })
-                    .limit(1);
+                    .order("data_troca", { ascending: false }); // ← Removido o .limit(1)
                 
                 if (fichaError) {
-                    console.error("Erro ao buscar ficha na verificação de sessão:", fichaError);
+                    console.error("Erro ao buscar fichas na verificação de sessão:", fichaError);
                 }
 
-                const fichaMaisRecente = fichas ? fichas[0] : null;
-                mostrarFicha(aluno, fichaMaisRecente);
+                mostrarFichas(aluno, fichas);
             } else {
-                // Se não encontrar o aluno pelo ID (ex: foi deletado), faz logout
                 console.error("Erro ao verificar sessão, aluno não encontrado:", alunoError);
                 logout();
             }
@@ -263,7 +328,6 @@ document.addEventListener("DOMContentLoaded", () => {
     btnEntrar.addEventListener("click", login);
     btnSair.addEventListener("click", logout);
     btnSalvarCargas.addEventListener("click", salvarCargas);
-    // Permite login com a tecla Enter
     credencialInput.addEventListener("keyup", (event) => {
         if (event.key === "Enter") {
             login();
