@@ -9,8 +9,8 @@ body{font-family:'Montserrat',sans-serif;background-color:#f4f7f6;color:#333;mar
 }
 
 .exercicio-gif {
-    width: 80px;  /* Tamanho do GIF */
-    height: 80px;
+    width: 200px;  /* Tamanho do GIF */
+    height: 200px;
     object-fit: cover; /* Garante que o GIF não fique distorcido */
     border-radius: 8px;
     background-color: #f0f0f0; /* Cor de fundo enquanto o GIF carrega */
