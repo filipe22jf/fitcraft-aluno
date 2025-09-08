@@ -1,6 +1,6 @@
 {
   "name": "FitCraft - Meu Treino",
-  "short_name": "FitCraft",
+  "short_name": "FitCraft - Meu Treino",
   "description": "Acesse suas fichas de treino personalizadas",
   "start_url": "/",
   "display": "standalone",
