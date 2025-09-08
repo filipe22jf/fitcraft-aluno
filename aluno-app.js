@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 exercicioDiv.className = "exercicio";
 
                 const gifUrl = encontrarGifUrl(ex.exercicio);
-                const gifHtml = gifUrl ? `<img src="https://fitcraft-gifs-html.vercel.apps${gifUrl}" alt="GIF do exercício ${ex.exercicio}" class="exercicio-gif">` : '';
+                const gifHtml = gifUrl ? `<img src="https://fitcraft-gifs-html.vercel.app${gifUrl}" alt="GIF do exercício ${ex.exercicio}" class="exercicio-gif">` : '';
                 
                 const descricaoTecnica = ex.tecnica ? (tecnicasDescricoes[ex.tecnica] || "" ) : "";
                 const htmlTecnica = ex.tecnica ? `<div class="exercicio-tecnica">Técnica: <strong>${ex.tecnica}</strong>${descricaoTecnica ? `<span> — ${descricaoTecnica}</span>` : ""}</div>` : "";
@@ -282,3 +282,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- 4. INICIALIZAÇÃO ---
     verificarSessao();
 });
+
