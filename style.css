@@ -1,2 +1,18 @@
 body{font-family:'Montserrat',sans-serif;background-color:#f4f7f6;color:#333;margin:0;padding:20px;display:flex;justify-content:center;align-items:center;min-height:100vh}.container{width:100%;max-width:600px;margin:0 auto}.screen{display:none}.screen.active{display:block}.header{text-align:center;margin-bottom:30px;display:flex;flex-direction:column;align-items:center;gap:10px}#workout-screen .header{flex-direction:row;justify-content:space-between}.logo{max-width:80px}.logo-header{max-width:50px}.logout-btn{background:#e74c3c;color:#fff;border:none;padding:8px 15px;border-radius:5px;cursor:pointer;font-weight:600}.form-card{background:#fff;padding:25px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.1)}.form-group{margin-bottom:20px}label{display:block;margin-bottom:8px;font-weight:600;font-size:.9em}input[type=text],input[type=number]{width:100%;padding:12px;border:1px solid #ccc;border-radius:5px;box-sizing:border-box}.login-btn{width:100%;padding:15px;background-color:#27ae60;color:#fff;border:none;border-radius:5px;font-size:1em;font-weight:700;cursor:pointer;transition:background-color .3s}.login-btn:hover{background-color:#229954}.error-message{color:#e74c3c;text-align:center;margin-top:15px;font-weight:500}#ficha-info{background:#e8f6ef;color:#229954;padding:15px;border-radius:8px;margin-bottom:20px;font-weight:500}#ficha-info p{margin:5px 0}.exercicio{background:#fff;padding:15px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.08);margin-bottom:15px}.exercicio-nome{font-weight:700;font-size:1.1em;margin-bottom:8px}.exercicio-detalhes{font-size:.9em;color:#555;margin-bottom:8px}.exercicio-detalhes span{margin-right:15px}.exercicio-tecnica{font-size:.9em;color:#0b5ed7;background-color:#e7f3ff;padding:8px;border-radius:5px;margin-top:8px}.carga-input{display:flex;align-items:center;gap:10px;margin-top:12px}.carga-input label{font-weight:400;margin-bottom:0}.carga-input input{width:80px;padding:8px}.empty-state{text-align:center;padding:40px;background:#fff;border-radius:10px;color:#777}
+/* Estilos para o GIF do exercício */
+.exercicio-header {
+    display: flex;
+    justify-content: space-between; /* Coloca o nome à esquerda e o GIF à direita */
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.exercicio-gif {
+    width: 80px;  /* Tamanho do GIF */
+    height: 80px;
+    object-fit: cover; /* Garante que o GIF não fique distorcido */
+    border-radius: 8px;
+    background-color: #f0f0f0; /* Cor de fundo enquanto o GIF carrega */
+}
 
