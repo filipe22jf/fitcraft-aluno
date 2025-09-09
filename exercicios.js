@@ -1642,7 +1642,7 @@ const exercicios = [
     {
         "name": "Desenvolvimento Barra",
         "category": "Ombros",
-        "path": "/gifs/Ombros/Elevação lateral com halteres com apoio no peito.gif"
+        "path": "/gifs/Ombros/Desenvolvimento militar com barra.gif"
     },
     {
         "name": "Desenvolvimento militar inclinado com barra presa no chão",
