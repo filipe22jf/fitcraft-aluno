@@ -2157,7 +2157,7 @@ const exercicios = [
     {
         "name": "Passada",
         "category": "Pernas",
-        "path": "/gifs/Pernas/Levantamento Terra com Barra Hexagonal.gif"
+        "path": "/gifs/Pernas/Avanço sem Peso Corporal.gif"
     },
     {
         "name": "Levantamento Terra com Barra no Landmine",
