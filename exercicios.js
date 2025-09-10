@@ -327,7 +327,7 @@ const exercicios = [
     {
         "name": " De Cabo Ajoelhada",
         "category": "Glúteos",
-        "path": "/gifs/Glúteos/Puxada De Cabo Ajoelhada.gif"
+        "path": "/gifs/Glúteos/ De Cabo Ajoelhada.gif"
     },
     {
         "name": "Elevação Pélvica Unilateral Com Barra",
@@ -695,9 +695,9 @@ const exercicios = [
         "path": "/gifs/Trapézio/Encolhimento sem Pegada com Alavanca.gif"
     },
     {
-        "name": "Puxada de face com cabo cruzado",
+        "name": " de face com cabo cruzado",
         "category": "Trapézio",
-        "path": "/gifs/Trapézio/Puxada de face com cabo cruzado.gif"
+        "path": "/gifs/Trapézio/ de face com cabo cruzado.gif"
     },
     {
         "name": "Encolhimento de Barra Atrás das Costas",
@@ -705,9 +705,9 @@ const exercicios = [
         "path": "/gifs/Trapézio/Encolhimento de Barra Atrás das Costas.gif"
     },
     {
-        "name": "Puxada para o Rosto",
+        "name": " para o Rosto",
         "category": "Trapézio",
-        "path": "/gifs/Trapézio/Puxada para o Rosto.gif"
+        "path": "/gifs/Trapézio/ para o Rosto.gif"
     },
     {
         "name": "Encolhimento com Cabo",
@@ -720,9 +720,9 @@ const exercicios = [
         "path": "/gifs/Trapézio/Encolhimento Inclinado Pronado.gif"
     },
     {
-        "name": "Puxada para o Rosto de Joelhos",
+        "name": " para o Rosto de Joelhos",
         "category": "Trapézio",
-        "path": "/gifs/Trapézio/Puxada para o Rosto de Joelhos.gif"
+        "path": "/gifs/Trapézio/ para o Rosto de Joelhos.gif"
     },
     {
         "name": "Encolhimento com Alavanca",
@@ -770,9 +770,9 @@ const exercicios = [
         "path": "/gifs/Trapézio/Elevação de T com Halteres Inclinada.gif"
     },
     {
-        "name": "Meio Agachado com Puxada para o Rosto no Cabo",
+        "name": "Meio Agachado com  para o Rosto no Cabo",
         "category": "Trapézio",
-        "path": "/gifs/Trapézio/Meio Agachado com Puxada para o Rosto no Cabo.gif"
+        "path": "/gifs/Trapézio/Meio Agachado com  para o Rosto no Cabo.gif"
     },
     {
         "name": "Elevação de Deltoide Posterior com Halteres Inclinado",
@@ -1285,9 +1285,9 @@ const exercicios = [
         "path": "/gifs/Costas/Remada curvada com halteres.gif"
     },
     {
-        "name": "Puxada Alta Neutra com Cabos Duplos no Chão",
+        "name": " Alta Neutra com Cabos Duplos no Chão",
         "category": "Costas",
-        "path": "/gifs/Costas/Puxada Alta Neutra com Cabos Duplos no Chão.gif"
+        "path": "/gifs/Costas/ Alta Neutra com Cabos Duplos no Chão.gif"
     },
     {
         "name": "Remada com Cabo Sentada Unilateral com Torção",
@@ -1295,19 +1295,19 @@ const exercicios = [
         "path": "/gifs/Costas/Remada com Cabo Sentada Unilateral com Torção.gif"
     },
     {
-        "name": "Puxada em Pé com Torção no Cabo",
+        "name": " em Pé com Torção no Cabo",
         "category": "Costas",
-        "path": "/gifs/Costas/Puxada em Pé com Torção no Cabo.gif"
+        "path": "/gifs/Costas/ em Pé com Torção no Cabo.gif"
     },
     {
-        "name": "Puxada Alta Aberta",
+        "name": " Alta Aberta",
         "category": "Costas",
         "path": "/gifs/Costas/Puxada Alta.gif"
     },
     {
         "name": "Puxada Alta Neutra",
         "category": "Costas",
-        "path": "/gifs/Costas/Puxada frente barra romanal.gif"
+        "path": "/gifs/Costas/Puxada frente barra romana.gif"
     },
     {
         "name": "Puxada com Um Braço com Cabo",
