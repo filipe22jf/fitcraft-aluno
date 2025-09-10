@@ -325,7 +325,7 @@ const exercicios = [
         "path": "/gifs/Glúteos/Extensão de Perna na Máquina Smith Reversa.gif"
     },
     {
-        "name": "Puxada De Cabo Ajoelhada",
+        "name": " De Cabo Ajoelhada",
         "category": "Glúteos",
         "path": "/gifs/Glúteos/Puxada De Cabo Ajoelhada.gif"
     },
@@ -1307,7 +1307,7 @@ const exercicios = [
     {
         "name": "Puxada Alta Neutra",
         "category": "Costas",
-        "path": "/gifs/Costas/Puxada com Um Braço com Peso Adicional.gif"
+        "path": "/gifs/Costas/Puxada frente barra romanal.gif"
     },
     {
         "name": "Puxada com Um Braço com Cabo",
