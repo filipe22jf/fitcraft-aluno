@@ -2192,7 +2192,7 @@ const exercicios = [
     {
         "name": "Afundo no smith",
         "category": "Pernas",
-        "path": "/gifs/Pernas/Leg press 90 no smith.gif"
+        "path": "/gifs/Pernas/Afundo na Máquina Smith.gif"
     },
     {
         "name": "Leg Press 45°",
