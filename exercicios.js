@@ -695,9 +695,9 @@ const exercicios = [
         "path": "/gifs/Trapézio/Encolhimento sem Pegada com Alavanca.gif"
     },
     {
-        "name": " de face com cabo cruzado",
+        "name": "Puxada de face com cabo cruzado",
         "category": "Trapézio",
-        "path": "/gifs/Trapézio/ de face com cabo cruzado.gif"
+        "path": "/gifs/Trapézio/Puxada de face com cabo cruzado.gif"
     },
     {
         "name": "Encolhimento de Barra Atrás das Costas",
@@ -707,7 +707,7 @@ const exercicios = [
     {
         "name": "Puxada para o Rosto",
         "category": "Trapézio",
-        "path": "/gifs/Trapézio/ para o Rosto.gif"
+        "path": "/gifs/Trapézio/Puxada para o Rosto.gif"
     },
     {
         "name": "Encolhimento com Cabo",
@@ -722,7 +722,7 @@ const exercicios = [
     {
         "name": "Puxada para o Rosto de Joelhos",
         "category": "Trapézio",
-        "path": "/gifs/Trapézio/ para o Rosto de Joelhos.gif"
+        "path": "/gifs/Trapézio/Puxada para o Rosto de Joelhos.gif"
     },
     {
         "name": "Encolhimento com Alavanca",
@@ -1287,7 +1287,7 @@ const exercicios = [
     {
         "name": "Puxada Alta Neutra com Cabos Duplos no Chão",
         "category": "Costas",
-        "path": "/gifs/Costas/ Alta Neutra com Cabos Duplos no Chão.gif"
+        "path": "/gifs/Costas/Puxada Alta Neutra com Cabos Duplos no Chão.gif"
     },
     {
         "name": "Remada com Cabo Sentada Unilateral com Torção",
@@ -1297,7 +1297,7 @@ const exercicios = [
     {
         "name": "Puxada em Pé com Torção no Cabo",
         "category": "Costas",
-        "path": "/gifs/Costas/ em Pé com Torção no Cabo.gif"
+        "path": "/gifs/Costas/Puxada em Pé com Torção no Cabo.gif"
     },
     {
         "name": "Puxada Alta Aberta",
