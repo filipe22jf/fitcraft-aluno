@@ -1477,7 +1477,7 @@ const exercicios = [
     {
         "name": "Crucifixo Invertido Halteres",
         "category": "Ombros",
-        "path": "/gifs/Ombros/Voador para deltoides posterior com cabo.gif"
+        "path": "/gifs/Ombros/Elevação lateral com tronco inclinado.gif"
     },
     {
         "name": "Levantamento frontal com barra",
