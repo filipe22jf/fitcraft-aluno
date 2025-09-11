@@ -1,5 +1,3 @@
-// aluno-app.js (VERSÃO FINAL E CORRIGIDA)
-
 document.addEventListener("DOMContentLoaded", () => {
     // --- 1. SELEÇÃO DE ELEMENTOS DO DOM ---
     const loginScreen = document.getElementById("login-screen");
@@ -68,6 +66,38 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
     }
 
+    // ==================================================================
+    //  INÍCIO DAS MODIFICAÇÕES: Novas funções para renderização
+    // ==================================================================
+
+    // FUNÇÃO AUXILIAR: Cria o HTML para um único exercício.
+    function criarElementoExercicio(exercicio, mapaCargas) {
+        const exercicioElement = document.createElement("div");
+        exercicioElement.className = "exercicio";
+        exercicioElement.dataset.id = exercicio.id;
+
+        const gifUrl = encontrarGifUrl(exercicio.exercicio);
+        const gifHtml = gifUrl ? `<img src="https://fitcraft-gifs-html.vercel.app${gifUrl}" alt="GIF do exercício ${exercicio.exercicio}" class="exercicio-gif" loading="lazy">` : '';
+        
+        const descricaoTecnica = exercicio.tecnica ? (tecnicasDescricoes[exercicio.tecnica] || "" ) : "";
+        // Não mostra a descrição da técnica se for de agrupamento, pois já estará no cabeçalho do grupo
+        const htmlTecnica = (exercicio.tecnica && !exercicio.grupoTecnicaId) ? `<div class="exercicio-tecnica">Técnica: <strong>${exercicio.tecnica}</strong>${descricaoTecnica ? `<span> — ${descricaoTecnica}</span>` : ""}</div>` : "";
+        
+        const ultimaCarga = mapaCargas[exercicio.exercicio] || "";
+
+        exercicioElement.innerHTML = `
+            <div class="exercicio-header">
+                <div class="exercicio-nome">${exercicio.exercicio}</div>
+                ${gifHtml}
+            </div>
+            <div class="exercicio-detalhes"><span>Séries: <strong>${exercicio.series}</strong></span> <span>Repetições: <strong>${exercicio.repeticoes}</strong></span></div>
+            ${htmlTecnica}
+            <div class="carga-input"><label>Carga (kg):</label><input type="number" class="carga-valor" data-exercicio-nome="${exercicio.exercicio}" value="${ultimaCarga}" placeholder="0"></div>
+        `;
+        return exercicioElement;
+    }
+
+    // FUNÇÃO PRINCIPAL DE RENDERIZAÇÃO (VERSÃO ATUALIZADA)
     async function renderizarFichaAtual() {
         const ficha = fichasDoAluno[fichaAtualIndex];
         if (!ficha) {
@@ -75,6 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // --- Parte 1: Renderiza informações da ficha e navegação (sem alterações) ---
         const navegacao = criarNavegacaoFichas();
         const dataFormatada = new Date(ficha.data_troca).toLocaleDateString("pt-BR", { timeZone: "UTC" });
         fichaInfoDiv.innerHTML = navegacao + `
@@ -87,66 +118,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const btnAnterior = document.getElementById('ficha-anterior');
         const btnProximo = document.getElementById('ficha-proximo');
-        if (btnAnterior) {
-            btnAnterior.addEventListener('click', () => {
-                if (fichaAtualIndex > 0) {
-                    fichaAtualIndex--;
-                    renderizarFichaAtual();
-                }
-            });
-        }
-        if (btnProximo) {
-            btnProximo.addEventListener('click', () => {
-                if (fichaAtualIndex < fichasDoAluno.length - 1) {
-                    fichaAtualIndex++;
-                    renderizarFichaAtual();
-                }
-            });
-        }
+        if (btnAnterior) btnAnterior.addEventListener('click', () => { if (fichaAtualIndex > 0) { fichaAtualIndex--; renderizarFichaAtual(); } });
+        if (btnProximo) btnProximo.addEventListener('click', () => { if (fichaAtualIndex < fichasDoAluno.length - 1) { fichaAtualIndex++; renderizarFichaAtual(); } });
 
+        // --- Parte 2: Lógica de renderização dos exercícios (AQUI ESTÁ A MUDANÇA) ---
         if (ficha.exercicios && ficha.exercicios.length > 0) {
+            // Busca as cargas (sem alterações)
             const nomesExercicios = ficha.exercicios.map(ex => ex.exercicio);
-            const { data: ultimasCargas, error: cargasError } = await _supabase
-                .from("treinos_realizados")
-                .select("exercicio_nome, carga_kg")
-                .eq("aluno_id", alunoAtual.id)
-                .in("exercicio_nome", nomesExercicios)
-                .order("data_treino", { ascending: false });
-            
+            const { data: ultimasCargas, error: cargasError } = await _supabase.from("treinos_realizados").select("exercicio_nome, carga_kg").eq("aluno_id", alunoAtual.id).in("exercicio_nome", nomesExercicios).order("data_treino", { ascending: false });
             if (cargasError) console.error("Erro ao buscar últimas cargas:", cargasError);
-
             const mapaCargas = {};
             if (ultimasCargas) {
-                ultimasCargas.forEach(carga => {
-                    if (!mapaCargas[carga.exercicio_nome]) {
-                        mapaCargas[carga.exercicio_nome] = carga.carga_kg;
-                    }
-                });
+                ultimasCargas.forEach(carga => { if (!mapaCargas[carga.exercicio_nome]) mapaCargas[carga.exercicio_nome] = carga.carga_kg; });
             }
 
-            fichaContentDiv.innerHTML = "";
-            ficha.exercicios.forEach(ex => {
-                const exercicioDiv = document.createElement("div");
-                exercicioDiv.className = "exercicio";
+            fichaContentDiv.innerHTML = ""; // Limpa a área
+            const exerciciosProcessados = new Set(); // Controle para não renderizar duas vezes
 
-                const gifUrl = encontrarGifUrl(ex.exercicio);
-                const gifHtml = gifUrl ? `<img src="https://fitcraft-gifs-html.vercel.app${gifUrl}" alt="GIF do exercício ${ex.exercicio}" class="exercicio-gif">` : '';
-                
-                const descricaoTecnica = ex.tecnica ? (tecnicasDescricoes[ex.tecnica] || "" ) : "";
-                const htmlTecnica = ex.tecnica ? `<div class="exercicio-tecnica">Técnica: <strong>${ex.tecnica}</strong>${descricaoTecnica ? `<span> — ${descricaoTecnica}</span>` : ""}</div>` : "";
-                
-                const ultimaCarga = mapaCargas[ex.exercicio] || "";
+            ficha.exercicios.forEach(exercicio => {
+                if (exerciciosProcessados.has(exercicio.id)) return;
 
-                exercicioDiv.innerHTML = `
-                    <div class="exercicio-header">
-                        <div class="exercicio-nome">${ex.exercicio}</div>
-                        ${gifHtml}
-                    </div>
-                    <div class="exercicio-detalhes"><span>Séries: <strong>${ex.series}</strong></span> <span>Repetições: <strong>${ex.repeticoes}</strong></span></div>
-                    ${htmlTecnica}
-                    <div class="carga-input"><label>Carga (kg):</label><input type="number" class="carga-valor" data-exercicio-nome="${ex.exercicio}" value="${ultimaCarga}" placeholder="0"></div>
-                `;
-                fichaContentDiv.appendChild(exercicioDiv);
+                // LÓGICA DE AGRUPAMENTO
+                if (exercicio.grupoTecnicaId) {
+                    const grupoDeExercicios = ficha.exercicios.filter(ex => ex.grupoTecnicaId === exercicio.grupoTecnicaId);
+                    const groupContainer = document.createElement('div');
+                    groupContainer.className = 'exercicio-group';
+                    groupContainer.innerHTML = `<div class="group-header">${exercicio.tecnica}</div>`;
+
+                    grupoDeExercicios.forEach(exDoGrupo => {
+                        const exercicioElement = criarElementoExercicio(exDoGrupo, mapaCargas);
+                        exercicioElement.classList.add('in-group');
+                        groupContainer.appendChild(exercicioElement);
+                        exerciciosProcessados.add(exDoGrupo.id);
+                    });
+                    fichaContentDiv.appendChild(groupContainer);
+                } else {
+                    // Renderiza exercício normal
+                    const exercicioElement = criarElementoExercicio(exercicio, mapaCargas);
+                    fichaContentDiv.appendChild(exercicioElement);
+                    exerciciosProcessados.add(exercicio.id);
+                }
             });
 
             btnSalvarCargas.style.display = "block";
@@ -155,6 +166,10 @@ document.addEventListener("DOMContentLoaded", () => {
             btnSalvarCargas.style.display = "none";
         }
     }
+
+    // ==================================================================
+    //  FIM DAS MODIFICAÇÕES
+    // ==================================================================
 
     async function login() {
         const credencial = credencialInput.value.trim().toUpperCase();
@@ -192,28 +207,26 @@ document.addEventListener("DOMContentLoaded", () => {
         workoutScreen.classList.remove("active");
         credencialInput.value = "";
     }
- // --- NOVA FUNÇÃO PARA CORRIGIR O ERRO ---
+
     function mostrarFichas(aluno, fichas) {
-        alunoAtual = aluno; // Guarda os dados do aluno que acabou de logar
-        fichasDoAluno = fichas || []; // Guarda as fichas encontradas
-        fichaAtualIndex = 0; // Garante que começaremos pela primeira ficha
+        alunoAtual = aluno;
+        fichasDoAluno = fichas || [];
+        fichaAtualIndex = 0;
 
-        alunoNomeSpan.textContent = `Olá, ${aluno.nome.split(' ')[0]}!`; // Exibe o nome do aluno
+        alunoNomeSpan.textContent = `Olá, ${aluno.nome.split(' ')[0]}!`;
 
-        // Esconde a tela de login e mostra a tela de treino
         loginScreen.classList.remove("active");
         workoutScreen.classList.add("active");
 
         if (fichasDoAluno.length > 0) {
-            // Se encontrou fichas, chama a função para renderizar a primeira
             renderizarFichaAtual();
         } else {
-            // Se não encontrou fichas, exibe uma mensagem amigável
-            fichaInfoDiv.innerHTML = ''; // Limpa a área de informações
+            fichaInfoDiv.innerHTML = '';
             fichaContentDiv.innerHTML = '<div class="empty-state">Você ainda não tem nenhuma ficha de treino cadastrada.</div>';
-            btnSalvarCargas.style.display = "none"; // Esconde o botão de salvar
+            btnSalvarCargas.style.display = "none";
         }
     }
+
     async function salvarCargas() {
         if (!alunoAtual) return;
         const inputsDeCarga = document.querySelectorAll(".carga-valor");
@@ -282,4 +295,3 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- 4. INICIALIZAÇÃO ---
     verificarSessao();
 });
-
