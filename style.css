@@ -16,3 +16,39 @@ body{font-family:'Montserrat',sans-serif;background-color:#f4f7f6;color:#333;mar
     background-color: #f0f0f0; /* Cor de fundo enquanto o GIF carrega */
 }
 
+/* --- ESTILOS PARA GRUPOS DE EXERCÍCIOS (BI-SET, TRI-SET, ETC.) --- */
+
+/* O contêiner principal para o grupo de exercícios */
+.exercicio-group {
+    background-color: #e7f3ff; /* Um azul bem claro para o fundo do grupo */
+    border: 1px solid #b3d7ff; /* Uma borda azul para o grupo todo */
+    border-radius: 10px;      /* Bordas arredondadas para o grupo */
+    margin-bottom: 15px;      /* Margem inferior para separar dos próximos exercícios/grupos */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden; /* Garante que os cantos arredondados sejam aplicados aos filhos */
+}
+
+/* Cabeçalho que mostra o nome da técnica (Ex: "BI-SET") */
+.group-header {
+    background-color: #0b5ed7; /* Azul escuro para o cabeçalho */
+    color: #fff;
+    padding: 10px 15px;
+    font-weight: 700;
+    font-size: 1.1em;
+    text-transform: uppercase;
+}
+
+/* Estilo para cada exercício DENTRO de um grupo */
+.exercicio.in-group {
+    margin-bottom: 0; /* Remove a margem inferior entre os exercícios do grupo */
+    border-radius: 0; /* Remove o arredondamento individual */
+    box-shadow: none;   /* Remove a sombra individual */
+    border: none;       /* Remove a borda individual */
+    border-top: 1px solid #b3d7ff; /* Adiciona uma linha separadora entre eles */
+    background-color: transparent; /* Fundo transparente para usar a cor do .exercicio-group */
+}
+
+/* Remove a borda superior do PRIMEIRO exercício do grupo para não duplicar */
+.exercicio.in-group:first-child {
+    border-top: none;
+}
