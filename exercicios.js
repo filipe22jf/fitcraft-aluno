@@ -1152,7 +1152,7 @@ const exercicios = [
     {
         "name": "Remada Cavalinho",
         "category": "Costas",
-        "path": "/gifs/Costas/Remada unilateral com barra landmine.gif"
+        "path": "/gifs/Costas/Remada T com Landmine.gif"
     },
     {
         "name": "Remada Unilateral com Cabo",
