@@ -2513,5 +2513,90 @@ const exercicios = [
         "name": "Afundo Lateral com Barra",
         "category": "Pernas",
         "path": "/gifs/Pernas/Afundo Lateral com Barra.gif"
+    {
+        "name": "Abd com Bola",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Abd com Bola.gif"
+    },
+    {
+        "name": "Abd Infra Livre",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Abd Infra Livre.gif" 
+    },
+    {
+        "name": "Abd Infra Maquina",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Abd Infra Maquina.gif"
+    },
+    {
+        "name": "Abd Oblico",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Abd Oblico.gif"
+    },
+    {
+        "name": "Abd Supra cabo sentado",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Abd Supra cabo sentado.gif"
+    },
+    {
+        "name": "Abd Supra Cabo",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Abd Supra Cabo.gif"
+    },
+    {
+        "name": "abdominal supra solo",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/abdominal supra solo.gif"
+    },
+    {
+        "name": "abdominal em V no chao",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/abdominal-em-V-no-chao.gif"
+    },
+    {
+        "name": "Abdominal-infra-solo",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Abdominal-infra-solo.gif"
+    },
+    {
+        "name": "Elevação de Pernas",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Elevação de Pernas.gif"
+    },
+    {
+        "name": "Leg Scissors » Fitness Programer",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Leg Scissors » Fitness Programer.gif"
+    },
+    {
+        "name": "Prancha com Flexão de Joelhos",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Prancha com Flexão de Joelhos.gif"
+    },
+    {
+        "name": "Prancha Lateral",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Prancha Lateral.jpg"
+    },
+    {
+        "name": "Prancha",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Prancha.gif"
+    },
+    {
+        "name": "Rotação de Tronco cabo",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Rotação de Tronco cabo.gif"
+    },
+    {
+        "name": "Rotação de Tronco Solo",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Rotação de Tronco Solo.gif"
+    },
+    {
+        "name": "Superman",
+        "category": "Abdomen",
+        "path": "/gifs/Abdomen/Superman.gif"
     }
-];
+
+]
