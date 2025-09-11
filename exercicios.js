@@ -2513,6 +2513,7 @@ const exercicios = [
         "name": "Afundo Lateral com Barra",
         "category": "Pernas",
         "path": "/gifs/Pernas/Afundo Lateral com Barra.gif"
+    },
     {
         "name": "Abd com Bola",
         "category": "Abdomen",
