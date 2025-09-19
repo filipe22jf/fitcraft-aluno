@@ -1305,7 +1305,7 @@ const exercicios = [
         "path": "/gifs/Costas/Puxada Alta.gif"
     },
     {
-        "name": "Puxada Alta Neutra",
+        "name": "Puxada Frente Barra Romana",
         "category": "Costas",
         "path": "/gifs/Costas/Puxada frente barra romana.gif"
     },
