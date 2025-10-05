@@ -76,9 +76,12 @@ document.addEventListener("DOMContentLoaded", () => {
         exercicioElement.className = "exercicio";
         exercicioElement.dataset.id = exercicio.id;
 
-        const gifUrl = encontrarGifUrl(exercicio.exercicio);
-        const gifHtml = gifUrl ? `<img src="https://fitcraft-gifs-html.vercel.app${gifUrl}" alt="GIF do exercício ${exercicio.exercicio}" class="exercicio-gif" loading="lazy">` : '';
-        
+         const gifUrlFinal = exercicio.gif_url || encontrarGifUrl(exercicio.exercicio);
+    
+    // Monta o HTML do GIF. A URL para exercícios da IA já é completa, então não precisa do prefixo.
+    const gifHtml = gifUrlFinal 
+        ? `<img src="${gifUrlFinal.startsWith('http' ) ? gifUrlFinal : 'https://fitcraft-gifs-html.vercel.app' + gifUrlFinal}" alt="GIF do exercício ${exercicio.exercicio}" class="exercicio-gif" loading="lazy">` 
+        : '';
         const descricaoTecnica = exercicio.tecnica ? (tecnicasDescricoes[exercicio.tecnica] || "" ) : "";
         // Não mostra a descrição da técnica se for de agrupamento, pois já estará no cabeçalho do grupo
         const htmlTecnica = (exercicio.tecnica && !exercicio.grupoTecnicaId) ? `<div class="exercicio-tecnica">Técnica: <strong>${exercicio.tecnica}</strong>${descricaoTecnica ? `<span> — ${descricaoTecnica}</span>` : ""}</div>` : "";
