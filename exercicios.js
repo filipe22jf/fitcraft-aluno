@@ -280,6 +280,16 @@ const exercicios = [
         "path": "/gifs/Glúteos/Gluteos Coice nilateral Polia Baixa.gif"
     },
     {
+        "name": "Step UP",
+        "category": "Glúteos",
+        "path": "/gifs/Glúteos/STEP_UP.gif"
+    },
+     {
+        "name": "Abdução Cruzada",
+        "category": "Glúteos",
+        "path": "/gifs/Glúteos/abducao_cruzada.gif"
+    },
+    {
         "name": "Glúteo Coice Na Máquina",
         "category": "Glúteos",
         "path": "/gifs/Glúteos/Glúteo Coice Na Máquina.gif"
