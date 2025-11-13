@@ -470,7 +470,7 @@ const exercicios = [
         "path": "/gifs/Tríceps/Tríceps Francês com Halter Bilateral.gif"
     },
     {
-        "name": "Flexão fechada",
+        "name": "Flexão fechada Tríceps",
         "category": "Tríceps",
         "path": "/gifs/Tríceps/incline-pushup.gif"
     },
