@@ -95,9 +95,9 @@ const exercicios = [
         "path": "/gifs/Cardio Academia/Bike.gif"
     },
     {
-        "name": "Flexão de Punho Reversa com Barra Sobre um Banco",
+        "name": "ão de Punho Reversa com Barra Sobre um Banco",
         "category": "Antebraços",
-        "path": "/gifs/Antebraços/Flexão de Punho Reversa com Barra Sobre um Banco.gif"
+        "path": "/gifs/Antebraços/ão de Punho Reversa com Barra Sobre um Banco.gif"
     },
     {
         "name": "Rosca de Punho Pegada Neutra com Anilhas",
@@ -125,9 +125,9 @@ const exercicios = [
         "path": "/gifs/Antebraços/Rosca de dedo com barra.gif"
     },
     {
-        "name": "Flexão de Punho Reversa com Anilha",
+        "name": "ão de Punho Reversa com Anilha",
         "category": "Antebraços",
-        "path": "/gifs/Antebraços/Flexão de Punho Reversa com Anilha.gif"
+        "path": "/gifs/Antebraços/ão de Punho Reversa com Anilha.gif"
     },
     {
         "name": "Hand Grip",
@@ -147,7 +147,7 @@ const exercicios = [
     {
         "name": "Flexão de Punho com Cabo em um Braço no Chão",
         "category": "Antebraços",
-        "path": "/gifs/Antebraços/Flexão de Punho com Cabo em um Braço no Chão.gif"
+        "path": "/gifs/Antebraços/ão de Punho com Cabo em um Braço no Chão.gif"
     },
     {
         "name": "Flexão de Pulso Neutra Sentado com Halteres",
@@ -470,9 +470,9 @@ const exercicios = [
         "path": "/gifs/Tríceps/Tríceps Francês com Halter Bilateral.gif"
     },
     {
-        "name": "Flexão fechada Tríceps",
+        "name": "Flexão fechada",
         "category": "Tríceps",
-        "path": "/gifs/Tríceps/Flexão no banco no chão.gif"
+        "path": "/gifs/Tríceps/incline-pushup.gif"
     },
     {
         "name": "Extensão de tríceps no cabo deitado",
