@@ -847,7 +847,7 @@ const exercicios = [
     {
         "name": "Flexão",
         "category": "Peitoral",
-        "path": "/gifs/Peitoral/Supino.gif"
+        "path": "/gifs/Tríceps/incline-pushup.gif"
     },
     {
         "name": "Voador no pec deck",
