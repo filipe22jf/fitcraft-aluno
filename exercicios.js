@@ -815,7 +815,7 @@ const exercicios = [
         "path": "/gifs/Peitoral/Voador na Máquina.gif"
     },
     {
-        "name": "Supino na máquina",
+        "name": "Supino na máquina vertical",
         "category": "Peitoral",
         "path": "/gifs/Peitoral/Supino na máquina.gif"
     },
