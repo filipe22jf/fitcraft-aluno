@@ -86,6 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Não mostra a descrição da técnica se for de agrupamento, pois já estará no cabeçalho do grupo
         const htmlTecnica = (exercicio.tecnica && !exercicio.grupoTecnicaId) ? `<div class="exercicio-tecnica">Técnica: <strong>${exercicio.tecnica}</strong>${descricaoTecnica ? `<span> — ${descricaoTecnica}</span>` : ""}</div>` : "";
         
+        // *** ADIÇÃO: HTML para observação do exercício ***
+        const htmlObservacao = exercicio.observacao ? `<div class="exercicio-observacao"><strong>💡 Observação:</strong> ${exercicio.observacao}</div>` : "";
+        
         const ultimaCarga = mapaCargas[exercicio.exercicio] || "";
 
         exercicioElement.innerHTML = `
@@ -95,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             <div class="exercicio-detalhes"><span>Séries: <strong>${exercicio.series}</strong></span> <span>Repetições: <strong>${exercicio.repeticoes}</strong></span></div>
             ${htmlTecnica}
+            ${htmlObservacao}
             <div class="carga-input"><label>Carga (kg):</label><input type="number" class="carga-valor" data-exercicio-nome="${exercicio.exercicio}" value="${ultimaCarga}" placeholder="0"></div>
         `;
         return exercicioElement;

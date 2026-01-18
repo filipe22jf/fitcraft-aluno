@@ -52,3 +52,20 @@ body{font-family:'Montserrat',sans-serif;background-color:#f4f7f6;color:#333;mar
 .exercicio.in-group:first-child {
     border-top: none;
 }
+
+/* *** NOVO: Estilos para observação do exercício *** */
+.exercicio-observacao {
+    font-size: 0.9em;
+    color: #0099cc; /* Cor azul similar à usada no sistema de criar ficha */
+    background-color: rgba(0, 191, 255, 0.1); /* Fundo azul claro */
+    padding: 10px;
+    border-radius: 5px;
+    border-left: 3px solid #0099cc; /* Borda lateral destacada */
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
+.exercicio-observacao strong {
+    color: #0099cc;
+    font-weight: 600;
+}
