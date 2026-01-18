@@ -1,4 +1,4 @@
-body{font-family:'Montserrat',sans-serif;background-color:#f4f7f6;color:#333;margin:0;padding:20px;display:flex;justify-content:center;align-items:center;min-height:100vh}.container{width:100%;max-width:600px;margin:0 auto}.screen{display:none}.screen.active{display:block}.header{text-align:center;margin-bottom:30px;display:flex;flex-direction:column;align-items:center;gap:10px}#workout-screen .header{flex-direction:row;justify-content:space-between}.logo{max-width:110px}.logo-header{max-width:110px}.logout-btn{background:#e74c3c;color:#fff;border:none;padding:8px 15px;border-radius:5px;cursor:pointer;font-weight:600}.form-card{background:#fff;padding:25px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.1)}.form-group{margin-bottom:20px}label{display:block;margin-bottom:8px;font-weight:600;font-size:.9em}input[type=text],input[type=number]{width:100%;padding:12px;border:1px solid #ccc;border-radius:5px;box-sizing:border-box}.login-btn{width:100%;padding:15px;background-color:#27ae60;color:#fff;border:none;border-radius:5px;font-size:1em;font-weight:700;cursor:pointer;transition:background-color .3s}.login-btn:hover{background-color:#229954}.error-message{color:#e74c3c;text-align:center;margin-top:15px;font-weight:500}#ficha-info{background:#e8f6ef;color:#229954;padding:15px;border-radius:8px;margin-bottom:20px;font-weight:500}#ficha-info p{margin:5px 0}.exercicio{background:#fff;padding:15px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.08);margin-bottom:15px}.exercicio-nome{font-weight:700;font-size:1.1em;margin-bottom:8px}.exercicio-detalhes{font-size:.9em;color:#555;margin-bottom:8px}.exercicio-detalhes span{margin-right:15px}.exercicio-tecnica{font-size:.9em;color:#0b5ed7;background-color:#e7f3ff;padding:8px;border-radius:5px;margin-top:8px}.carga-input{display:flex;align-items:center;gap:10px;margin-top:12px}.carga-input label{font-weight:400;margin-bottom:0}.carga-input input{width:80px;padding:8px}.empty-state{text-align:center;padding:40px;background:#fff;border-radius:10px;color:#777}
+body{font-family:'Montserrat',sans-serif;background-color:#f4f7f6;color:#333;margin:0;padding:20px;display:flex;justify-content:center;align-items:center;min-height:100vh}.container{width:100%;max-width:600px;margin:0 auto}.screen{display:none}.screen.active{display:block}.header{text-align:center;margin-bottom:30px;display:flex;flex-direction:column;align-items:center;gap:10px}#workout-screen .header{flex-direction:row;justify-content:space-between}.logo{max-width:110px}.logo-header{max-width:110px}.logout-btn{background:#e74c3c;color:#fff;border:none;padding:8px 15px;border-radius:5px;cursor:pointer;font-weight:600}.form-card{background:#fff;padding:25px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.1)}.form-group{margin-bottom:20px}label{display:block;margin-bottom:8px;font-weight:600;font-size:.9em}input[type=text],input[type=number]{width:100%;padding:12px;border:1px solid #ccc;border-radius:5px;box-sizing:border-box}.login-btn{width:100%;padding:15px;background-color:#27ae60;color:#fff;border:none;border-radius:5px;font-size:1em;font-weight:700;cursor:pointer;transition:background-color .3s}.login-btn:hover{background-color:#229954}.error-message{color:#e74c3c;text-align:center;margin-top:15px;font-weight:500}#ficha-info{background:#e8f6ef;color:#229954;padding:15px;border-radius:8px;margin-bottom:20px;font-weight:500}#ficha-info p{margin:5px 0}.exercicio{background:#fff;padding:15px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.08);margin-bottom:15px}.exercicio-nome{font-weight:700;font-size:1.1em;margin-bottom:8px}.exercicio-detalhes{font-size:.9em;color:#555;margin-bottom:8px}.exercicio-detalhes span{margin-right:15px}.exercicio-tecnica{font-size:.9em;color:#004085;background-color:#cce5ff;padding:10px;border-radius:5px;margin-top:8px;border-left:4px solid #0b5ed7;box-shadow:0 2px 4px rgba(0,0,0,0.1);font-weight:600}.carga-input{display:flex;align-items:center;gap:10px;margin-top:12px}.carga-input label{font-weight:400;margin-bottom:0}.carga-input input{width:80px;padding:8px}.empty-state{text-align:center;padding:40px;background:#fff;border-radius:10px;color:#777}
 /* Estilos para o GIF do exercício */
 .exercicio-header {
     display: flex;
@@ -56,16 +56,18 @@ body{font-family:'Montserrat',sans-serif;background-color:#f4f7f6;color:#333;mar
 /* *** NOVO: Estilos para observação do exercício *** */
 .exercicio-observacao {
     font-size: 0.9em;
-    color: #0099cc; /* Cor azul similar à usada no sistema de criar ficha */
-    background-color: rgba(0, 191, 255, 0.1); /* Fundo azul claro */
-    padding: 10px;
+    color: #055160; /* Azul escuro para melhor contraste */
+    background-color: #cff4fc; /* Fundo azul mais visível */
+    padding: 12px;
     border-radius: 5px;
-    border-left: 3px solid #0099cc; /* Borda lateral destacada */
+    border-left: 4px solid #0dcaf0; /* Borda lateral destacada e mais grossa */
     margin-top: 8px;
-    line-height: 1.4;
+    line-height: 1.5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombreamento suave */
+    font-weight: 500;
 }
 
 .exercicio-observacao strong {
-    color: #0099cc;
-    font-weight: 600;
+    color: #055160;
+    font-weight: 700;
 }
